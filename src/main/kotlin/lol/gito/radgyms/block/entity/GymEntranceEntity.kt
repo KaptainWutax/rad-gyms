@@ -2,7 +2,6 @@ package lol.gito.radgyms.block.entity
 
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import lol.gito.radgyms.RadGyms.CONFIG
-import lol.gito.radgyms.RadGyms.LOGGER
 import lol.gito.radgyms.RadGyms.debug
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -26,6 +25,12 @@ class GymEntranceEntity(pos: BlockPos, state: BlockState) : BlockEntity(BlockEnt
         playerUseCounter[player.uuid.toString()] = useCounter + 1
         markDirty()
         debug("Increased player ${player.uuid} tries (${playerUseCounter[player.uuid.toString()]}) for $pos gym entrance")
+    }
+
+    fun resetPlayerUseCounter() {
+        playerUseCounter.clear()
+        markDirty()
+        debug("Reset usage count for $pos gym entrance")
     }
 
     override fun toUpdatePacket(): Packet<ClientPlayPacketListener> = BlockEntityUpdateS2CPacket.create(this)
