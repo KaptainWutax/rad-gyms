@@ -1,12 +1,14 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.net.URI
 
+
 plugins {
     id("java")
     id("fabric-loom") version "1.9-SNAPSHOT"
     id("com.gradleup.shadow") version "8.3.5"
     kotlin("jvm") version "2.1.10"
     kotlin("plugin.serialization") version "2.1.10"
+    id("io.github.0ffz.github-packages") version "1.2.1"
 }
 
 group = property("maven_group")!!
@@ -25,6 +27,8 @@ repositories {
     maven("https://maven.architectury.dev/")
     maven("https://maven.wispforest.io/releases/")
     maven("https://maven.impactdev.net/repository/development/")
+    maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
+    maven(githubPackage.invoke("The-Aether-Team/The-Aether"))
 }
 
 fabricApi {
@@ -53,6 +57,7 @@ dependencies {
     include(modImplementation("maven.modrinth:admiral:${properties["admiral_version"]}+${properties["minecraft_version"]}+fabric")!!)
     modImplementation("io.wispforest:owo-lib:${properties["owo_version"]}")
     include("io.wispforest:owo-sentinel:${properties["owo_version"]}")
+    modCompileOnly("com.aetherteam.aether:aether:${properties["aether_version"]}-fabric")
 
     // Cobblemon
     modImplementation("com.cobblemon:fabric:${properties["cobblemon_version"]}")
