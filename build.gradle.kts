@@ -28,6 +28,8 @@ repositories {
     maven("https://maven.wispforest.io/releases/")
     maven("https://maven.impactdev.net/repository/development/")
     maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
+    maven("https://maven.blamejared.com/")
+    maven("https://modmaven.dev/")
     maven(githubPackage.invoke("The-Aether-Team/The-Aether"))
 }
 
@@ -57,7 +59,16 @@ dependencies {
     include(modImplementation("maven.modrinth:admiral:${properties["admiral_version"]}+${properties["minecraft_version"]}+fabric")!!)
     modImplementation("io.wispforest:owo-lib:${properties["owo_version"]}")
     include("io.wispforest:owo-sentinel:${properties["owo_version"]}")
+
+    // Integrations
+    modImplementation(
+        "software.bernie.geckolib:geckolib-fabric-${properties["minecraft_version"]}:${properties["geckolib_version"]}"
+    )
+
+    // Compat
     modCompileOnly("com.aetherteam.aether:aether:${properties["aether_version"]}-fabric")
+    modCompileOnlyApi("mezz.jei:jei-${properties["minecraft_version"]}-fabric-api:${properties["jei_version"]}")
+    modRuntimeOnly("mezz.jei:jei-${properties["minecraft_version"]}-fabric:${properties["jei_version"]}")
 
     // Cobblemon
     modImplementation("com.cobblemon:fabric:${properties["cobblemon_version"]}")
