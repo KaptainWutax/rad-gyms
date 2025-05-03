@@ -31,7 +31,6 @@ object RadGyms {
     val RCT: RCTApi = RCTApi.initInstance(MOD_ID)
     private val GYM_LOADER: RadGymsDataLoader = RadGymsDataLoader()
 
-
     fun init() {
         LOGGER.info("Initializing the mod")
         loadConfig()
@@ -56,7 +55,7 @@ object RadGyms {
         ItemGroupManager.register()
 
         // Commands
-         CommandRegistry.register()
+        CommandRegistry.register()
 
         // Network
         NetworkStackHandler.register()
@@ -85,6 +84,7 @@ object RadGyms {
             RadGymsConfig(
                 debug = false,
                 maxEntranceUses = 3,
+                lapisBoostAmount = 1,
                 shardRewards = true,
                 ignoredSpecies = emptyList(),
                 ignoredForms = mutableListOf("gmax"),
