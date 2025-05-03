@@ -17,11 +17,22 @@ version = property("mod_version")!!
 repositories {
     mavenLocal()
     mavenCentral()
-    maven("https://www.cursemaven.com")
+    maven {
+        url = URI("https://www.cursemaven.com")
+        content {
+            includeGroup("curse.maven")
+        }
+    }
     maven {
         url = URI("https://api.modrinth.com/maven")
         content {
             includeGroup("maven.modrinth")
+        }
+    }
+    maven {
+        url = URI("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+        content {
+            includeGroup("software.bernie.geckolib")
         }
     }
     maven("https://maven.architectury.dev/")
