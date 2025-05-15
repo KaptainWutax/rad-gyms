@@ -35,6 +35,10 @@ repositories {
             includeGroup("software.bernie.geckolib")
         }
     }
+    maven {
+        url = URI("https://maven.terraformersmc.com/")
+        name = "TerraformersMC" // EMI
+    }
     maven("https://maven.architectury.dev/")
     maven("https://maven.wispforest.io/releases/")
     maven("https://maven.impactdev.net/repository/development/")
@@ -52,6 +56,9 @@ fabricApi {
 
 loom {
     accessWidenerPath = file("src/main/resources/rad-gyms.accesswidener")
+    val clientConfig = runConfigs.getByName("client")
+    clientConfig.programArg("--username=AshKetchum")
+    clientConfig.programArg("--uuid=93e4e551-589a-41cb-ab2d-435266c8e035")
 }
 
 dependencies {
@@ -81,8 +88,6 @@ dependencies {
 
     // Compat
     modCompileOnly("com.aetherteam.aether:aether:${properties["aether_version"]}-fabric")
-    modCompileOnlyApi("mezz.jei:jei-${properties["minecraft_version"]}-fabric-api:${properties["jei_version"]}")
-    modRuntimeOnly("mezz.jei:jei-${properties["minecraft_version"]}-fabric:${properties["jei_version"]}")
 
     // Cobblemon
     modImplementation("com.cobblemon:fabric:${properties["cobblemon_version"]}")
@@ -90,6 +95,25 @@ dependencies {
     // Radical Cobblemon Trainers API
     modImplementation("curse.maven:radical-cobblemon-trainers-api-1152792:${properties["rctapi_common_version"]}")
     modImplementation("curse.maven:radical-cobblemon-trainers-api-1152792:${properties["rctapi_fabric_version"]}")
+
+    // Recipes
+    modCompileOnlyApi("mezz.jei:jei-${properties["minecraft_version"]}-fabric-api:${properties["jei_version"]}")
+    if (project.hasProperty("enable_jei") && properties["enable_jei"] == "true") {
+        modRuntimeOnly("mezz.jei:jei-${properties["minecraft_version"]}-fabric:${properties["jei_version"]}")
+    }
+
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${properties["rei_version"]}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${properties["rei_version"]}")
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${properties["cloth_config_version"]}")
+    modApi("dev.architectury:architectury-fabric:${properties["architectury_api_version"]}")
+    if (project.hasProperty("enable_rei") && properties["enable_rei"] == "true") {
+        modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${properties["rei_version"]}")
+    }
+
+    modCompileOnly("dev.emi:emi-fabric:${properties["emi_version"]}+${properties["minecraft_version"]}")
+    if (project.hasProperty("enable_emi") && properties["enable_emi"] == "true") {
+        modLocalRuntime("dev.emi:emi-fabric:${properties["emi_version"]}+${properties["minecraft_version"]}")
+    }
 }
 
 tasks {

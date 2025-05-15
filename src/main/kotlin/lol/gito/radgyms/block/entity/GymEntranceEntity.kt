@@ -85,7 +85,11 @@ class GymEntranceEntity(pos: BlockPos, state: BlockState) :
     }
 
     // Geckolib
-    private val idleAnim = RawAnimation.begin().thenLoop("animation.gym_entrance.idle")
+    private val deployAnim = RawAnimation
+        .begin()
+        .thenPlay("animation.gym_entrance.bob1")
+        .thenLoop("animation.gym_entrance.idle")
+
     private val animationCache = GeckoLibUtil.createInstanceCache(this)
 
     override fun getAnimatableInstanceCache(): AnimatableInstanceCache = this.animationCache
@@ -98,7 +102,6 @@ class GymEntranceEntity(pos: BlockPos, state: BlockState) :
         val defaultAnimController = AnimationController(
             this,
             "gym_entrance",
-            10,
             ::variadicAnimController
         )
         defaultAnimController.triggerableAnim(
@@ -129,6 +132,6 @@ class GymEntranceEntity(pos: BlockPos, state: BlockState) :
     }
 
     private fun variadicAnimController(state: AnimationState<GymEntranceEntity>): PlayState {
-        return state.setAndContinue(idleAnim)
+        return state.setAndContinue(deployAnim)
     }
 }

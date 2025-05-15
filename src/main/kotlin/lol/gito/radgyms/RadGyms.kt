@@ -74,21 +74,20 @@ object RadGyms {
         val configFile = File(CONFIG_PATH)
         configFile.parentFile.mkdirs()
 
-        CONFIG = if (configFile.exists()) {
-            LOGGER.info("Loading config")
-            configFile.inputStream().let {
-                Json.decodeFromStream<RadGymsConfig>(it)
+        when (configFile.exists()) {
+            true -> {
+                LOGGER.info("Loading config")
+
+                CONFIG = configFile.inputStream().let {
+                    Json.decodeFromStream<RadGymsConfig>(it)
+                }
+                CONFIG
             }
-        } else {
-            LOGGER.info("Creating config")
-            RadGymsConfig(
-                debug = false,
-                maxEntranceUses = 3,
-                lapisBoostAmount = 1,
-                shardRewards = true,
-                ignoredSpecies = emptyList(),
-                ignoredForms = mutableListOf("gmax"),
-            )
+
+            false -> {
+                LOGGER.info("Creating config")
+                CONFIG = RadGymsConfig()
+            }
         }
         saveConfig()
     }
@@ -99,8 +98,9 @@ object RadGyms {
         val prettify = Json {
             prettyPrint = true
         }
-        configFile.outputStream().let {
-            prettify.encodeToStream(CONFIG, it)
+
+        configFile.outputStream().let { stream ->
+            prettify.encodeToStream(CONFIG, stream)
             debug("Saving config")
         }
     }
